@@ -1,0 +1,8 @@
+{
+    "name": "Basic Rulebook",
+    "url": "http://www.geekguild.com/openadventure/files/open_adventure/rulebook/biem/openadventure_basic.pdf",
+    "copyright": ["oa-base"],
+    "license": "cc-by-sa",
+    "required": true,
+    "priority": 0
+}

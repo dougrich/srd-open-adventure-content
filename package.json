@@ -1,0 +1,25 @@
+{
+  "name": "srd-open-adventure-content",
+  "version": "1.0.0",
+  "description": "",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "event-stream": "^3.3.2",
+    "glob": "^6.0.4",
+    "gulp": "^3.9.0",
+    "gulp-add-src": "^0.2.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-jsx": "^2.0.1",
+    "gulp-markdown": "^1.2.0",
+    "gulp-uglify": "^1.5.1",
+    "gulp-util": "^3.0.7",
+    "gulp-wrapper": "^1.0.0",
+    "through-gulp": "^0.5.0",
+    "through2": "^2.0.0"
+  }
+}

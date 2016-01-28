@@ -1,0 +1,23 @@
+# Weapon, Cost, Damage, Weight, Handedness, Ability
+Axe, Battle     | 3sc   | 4 | 3 wt   | 2H   | Counter Deflect
+Axe, Hand       | 60cc  | 2 | 1 wt   | 1H   | Bleed 1
+Cestus, Spiked* | 50cc  | 2 | 0.5 wt | 1H   | -
+Club, Baton     | 30cc  | 1 | 2 wt   | 1H   | Knockout
+Club, Kanabo    | 4sc   | 3 | 5 wt   | 2H   | Knockback 2, Reach 1, Sweep
+Dagger          | 30cc  | 1 | 0.5 wt | 1H   | -
+Flail           | 1sc   | 3 | 1 wt   | 1H   | Stun 1
+Hammer, Maul    | 2sc   | 4 | 5 wt   | 2H   | Counter Deflect
+Hammer, War     | 1sc   | 2 | 2 wt   | 1H   | Double Damage
+Polearm, Glaive | 4sc   | 4 | 3 wt   | 2H   | Charge, Set vs. Charge
+Polearm, Lance  | 2sc   | 4 | 4 wt   | 1H   | Charge, Skewer, Reach 1
+Polearm, Pike   | 50cc  | 3 | 9 wt   | 2H   | Reach 2, Set vs. Charge
+Quarterstaff    | 2cc   | - | 2 wt   | 2H   | Reach 1
+Rod, Mace       | 50cc  | 2 | 2 wt   | 1H   | Delay
+Rod, Morningstar| 1sc   | 3 | 2 wt   | 1H   | Delay, Knockout
+Scythe          | 1sc   | 1 | 1 wt   | 1H   | Hook, Sweep, Reach 1
+Sword, Bastard  | 5sc   | 4 | 2 wt   | 2H   | Counter Deflect, Double Damage
+Sword, Long     | 4sc   | 3 | 2 wt   | 1H   | Disarm, Charge
+Sword, Rapier   | 3sc   | 3 | 1 wt   | 1H   | Extra Attack, Deflect
+Sword, Scimitar | 3sc   | 3 | 1 wt   | 1H   | +1 Attack
+Sword, Short    | 1sc   | 2 | 1 wt   | 1H   | Deflect
+Whip            | 30cc  | 1 | 1 wt   | 1H   | Disarm 
