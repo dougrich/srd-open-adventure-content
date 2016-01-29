@@ -1,7 +1,7 @@
 {
   "name": "srd-open-adventure-content",
   "version": "1.0.0",
-  "description": "",
+  "description": "srdhub Open Adventure content",
   "main": "gulpfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
