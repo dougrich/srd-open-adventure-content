@@ -47,7 +47,7 @@ sources.forEach(function (src) {
             .pipe(gulp.dest('temp/' + src));
     });
     
-    gulp.task(keys.buildArticles, function () {
+    gulp.task(keys.buildArticles, ['lint'], function () {
         var pathLookup = {}, index = 0;
         return gulp.src(keys.buildArticlesSrc)
             .pipe(markdown())
@@ -60,7 +60,7 @@ sources.forEach(function (src) {
             .pipe(concat(src + '.js'))
             .pipe(wrapper({
                 header: '(function (SRD, CreateClass, CreateElement, key, keys) { SRD[key] = SRD[key] || {};',
-                footer: '})(window.SRD || (window.SRD = {}), React.createClass, React.createElement,"' + src + '", KEYS)'
+                footer: '})(SRD, React.createClass, React.createElement,"' + src + '", KEYS)'
             }))
             .pipe(uglify())
             .pipe(gulp.dest('dist'));
