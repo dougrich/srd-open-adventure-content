@@ -7,6 +7,7 @@ CreateClass({
                     <th>Weapon</th>
                     <th>Cost</th>
                     <th>Damage</th>
+                    <th>Weight</th>
                     <th>Handedness</th>
                     <th>Ability</th>
                 </tr>
@@ -17,6 +18,7 @@ CreateClass({
                         <td>{data[0]}</td>
                         <td>{data[1]}</td>
                         <td>{data[2]}</td>
+                        <td>{data[3]}</td>
                         <td>{data[4]}</td>
                         <td>{data[5]}</td>
                     </tr>

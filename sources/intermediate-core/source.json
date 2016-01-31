@@ -1,0 +1,8 @@
+{
+    "name": "Intermediate Rulebook",
+    "url": "https://raw.githubusercontent.com/openadventure/Open-Adventure/master/rulebook/biem/openadventure_intermediate_alpha.pdf",
+    "copyright": ["oa-base"],
+    "license": "cc-by-sa",
+    "required": false,
+    "priority": 50
+}

@@ -17,10 +17,18 @@ var lint            = require('./build/lint'),
     articles        = require('./build/articles');
 
 gulp.task('lint', function () {
-    return gulp.src('articles/**/*.md')
+    return gulp.src('sources/**/*.md')
         .pipe(lint())
-        .pipe(gulp.dest('articles'));
+        .pipe(gulp.dest('sources'));
 });
+
+gulp.task('make:temp', function () {
+    try {
+        fs.mkdirSync('temp');
+    } catch (ex) {
+        console.log('Temp directory already exists');
+    }
+})
 
 var sources = fs.readdirSync('sources');
 
@@ -32,7 +40,7 @@ sources.forEach(function (src) {
         buildTemplated: 'build:' + src + ':templated',
         buildTemplatedSrc: 'sources/' + src + '/templated/*',
         buildArticles: 'build:' + src + ':articles',
-        buildArticlesSrc: 'sources/' + src + '/articles/*.md',
+        buildArticlesSrc: 'sources/' + src + '/articles/**/*.md',
         buildPack: 'build:' + src + ':pack',
         watch: 'watch:' + src
     };
@@ -59,11 +67,11 @@ sources.forEach(function (src) {
         return gulp.src('temp/' + src + '/**/*.js')
             .pipe(concat(src + '.js'))
             .pipe(wrapper({
-                header: '(function (SRD, CreateClass, CreateElement, key, keys) { SRD[key] = SRD[key] || {};',
-                footer: '})(SRD, React.createClass, React.createElement,"' + src + '", KEYS)'
+                header: 'SOURCE["' + src + '"] = function () { (function (SRD, CreateClass, CreateElement, key, keys) { SRD[key] = SRD[key] || {};',
+                footer: '})(SRD, React.createClass, React.createElement,"' + src + '", KEYS) };'
             }))
             .pipe(uglify())
-            .pipe(gulp.dest('dist'));
+            .pipe(gulp.dest('temp/packs'));
     });
     
     srcJson.push({
@@ -87,13 +95,12 @@ sources.forEach(function (src) {
 });
 
 (function () {
-    gulp.task('build:universal:package-list', function () {
+    gulp.task('build:universal:package-list', ['make:temp'], function () {
         var packages = srcJson.map(function (kv) {
             var manifest = JSON.stringify(JSON.parse(fs.readFileSync(kv.value, 'utf8')));
             return '"' + kv.key + '":' + manifest;
         }).join(',');
-        
-        fs.writeFileSync('dist/manifest.js', 'var MANIFEST = {' + packages + '}');
+        fs.writeFileSync('temp/manifest.js', 'var MANIFEST = {' + packages + '}');
     });
     gulp.task('watch:universal:package-list', ['build:universal:package-list'], function () {
         gulp.watch(srcJson.map(function (kv) { return kv.value }), ['build:universal:package-list']);
@@ -103,7 +110,7 @@ sources.forEach(function (src) {
 })();
 
 (function () {
-    gulp.task('build:universal:legal', function (cb) {
+    gulp.task('build:universal:legal', ['make:temp'], function (cb) {
         var copyright = fs.readFileSync('legal/copyright.json', 'utf8'),
             licenses = {};
         
@@ -118,7 +125,7 @@ sources.forEach(function (src) {
                 copyright: JSON.parse(copyright),
                 license: licenses
             }) + ';';
-            fs.writeFileSync('dist/legal.js', js);
+            fs.writeFileSync('temp/legal.js', js);
             cb();
         });
     });
@@ -135,3 +142,44 @@ sources.forEach(function (src) {
 gulp.task('build', build);
 gulp.task('watch', watch);
 
+var src = [
+    'temp/legal.js',
+    'temp/manifest.js'
+];
+var packs = [];
+srcJson.forEach(function(kv) {
+    var sourceJson = JSON.parse(fs.readFileSync(kv.value, 'utf8'));
+    if (sourceJson.required) {
+        src.push('temp/packs/' + kv.key + '.js');
+    } else {
+        packs.push('temp/packs/' + kv.key + '.js');
+    }
+});
+
+gulp.task('pack:core', ['build'], function () {
+    
+    return gulp.src(src)
+        .pipe(debug())
+        .pipe(concat('core.js'))
+        .pipe(uglify())
+        .pipe(gulp.dest('dist'));
+});
+
+gulp.task('pack:supplements', ['build'], function () {
+    
+    return gulp.src(packs)
+        .pipe(debug())
+        .pipe(uglify())
+        .pipe(gulp.dest('dist'));
+});
+
+gulp.task('pack', ['pack:core', 'pack:supplements']);
+
+gulp.task('default', ['pack'], function () {
+    gulp.watch([
+        'sources/**/*',
+        'legal/**/*'
+    ],[
+        'pack'
+    ])
+})

@@ -1,6 +1,7 @@
 var through     = require('through2'),
     path        = require('path'),
     handlebars  = require('handlebars'),
+    cheerio     = require('cheerio'),
     File        = require('gulp-util').File;
 
 // heavily inspired by https://github.com/contra/gulp-concat/blob/master/index.js
@@ -25,11 +26,17 @@ module.exports = function () {
         
         // is this a template, or data?
         var extension = path.extname(file.path),
-            dictionaryKey = path
-            .basename(file.path, extension)
+            dictionaryKey = file.path
             .replace(file.base, '')
-            .replace(/\\/gi, '/');
-        articles.articleList[index] = file.contents.toString('utf8');
+            .replace(/\\/gi, '/')
+            .replace(extension, ''),
+            body = file.contents.toString('utf8'),
+            $ = cheerio.load(body);
+            
+        articles.articleList[index] = {
+            title: $('h1').first().text(),
+            body: body
+        };
         articles.lookup[dictionaryKey] = index;
         
         latestFile = file;

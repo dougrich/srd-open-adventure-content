@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cheerio": "^0.19.0",
     "event-stream": "^3.3.2",
     "glob": "^6.0.4",
     "gulp": "^3.9.0",

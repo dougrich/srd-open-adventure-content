@@ -3,5 +3,6 @@
     "url": "http://www.geekguild.com/openadventure/files/open_adventure/rulebook/biem/openadventure_basic.pdf",
     "copyright": ["oa-base"],
     "license": "cc-by-sa",
+    "default": true,
     "priority": 50
 }

@@ -5,7 +5,8 @@ function lint(src, fn) {
     
     // remove special characters that cause chaos
     article = article
-        .replace(/[“”]/gi, '"');
+        .replace(/[“”]/gi, '"')
+        .replace(/[–]/gi, '-');
         
     // warn about any missing references
     
