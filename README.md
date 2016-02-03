@@ -14,13 +14,23 @@ There are two types of content: articles, which are free-form HTML content, and 
 
 Some sources override default source behaviour. For example, intermediate-core overrides the equipment template to include the weight column. The override order is determined by priority: lower numbers are overriden by higher numbers.
 
-### Packaging
+**Future work**: Figure out how images fit into this
 
-When 'gulp build' is run, it produces a number of javascript files for inclusion in the dist, and a number of temporary fragments in the temp folder. Each source gets a single javascript file 'package'.
+### Packaging + Build Output
 
-**Future work** should involve packing content further by combining any required sources, legal, and manifest into a single source file.
+There are three aggregate tasks: build, watch, and pack. In addition to this, there is the deploy operation
 
-**Future work** hook up indexing system
+##### Build
+Build will flatten all of the articles, templates, etc. into a couple files per source, as well as do a full index pass, manifest pass, and legal pass. It drops these into the temp folder.
+
+##### Watch
+Watch will execute a partial build whenever content changes.
+
+##### Pack
+Pack will take the index, manifest, legal, and any required sources and put them into the single core.js; then, it will flatten remaining sources into a single file and copy it over into the destination.
+
+##### Deploy
+Deploy assumes you have google cloud installed, and it will copy the srd contents to the edge node
 
 ## Legal
 
