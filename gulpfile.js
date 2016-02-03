@@ -9,11 +9,14 @@ var gulp    = require('gulp'),
     fs      = require('fs'),
     glob    = require('glob'),
     path    = require('path'),
+    argv    = require('yargs').argv,
+    exec    = require('child_process').execSync,
     markdown= require('gulp-markdown');
     
 // custom build steps
 var lint            = require('./build/lint'),
     templatedData   = require('./build/templated-data'),
+    indexer         = require('./build/index'),
     articles        = require('./build/articles');
 
 gulp.task('lint', function () {
@@ -95,6 +98,24 @@ sources.forEach(function (src) {
 });
 
 (function () {
+    
+    gulp.task('build:universal:index', function () {
+        return gulp.src('sources/**/*.md')
+            .pipe(markdown())
+            .pipe(addsrc('sources/**/*.dat'))
+            .pipe(indexer())
+            .pipe(gulp.dest('temp'));
+    });
+    
+    gulp.task('watch:universal:index', ['build:universal:index'], function () {
+        gulp.watch(['sources/**/*.md', 'sources/**/*.dat'], ['build:universal:index']);
+    })
+    
+    build.push('build:universal:index');
+    watch.push('watch:universal:index');
+})();
+
+(function () {
     gulp.task('build:universal:package-list', ['make:temp'], function () {
         var packages = srcJson.map(function (kv) {
             var manifest = JSON.stringify(JSON.parse(fs.readFileSync(kv.value, 'utf8')));
@@ -144,7 +165,8 @@ gulp.task('watch', watch);
 
 var src = [
     'temp/legal.js',
-    'temp/manifest.js'
+    'temp/manifest.js',
+    'temp/index.js'
 ];
 var packs = [];
 srcJson.forEach(function(kv) {
@@ -162,7 +184,7 @@ gulp.task('pack:core', ['build'], function () {
         .pipe(debug())
         .pipe(concat('core.js'))
         .pipe(uglify())
-        .pipe(gulp.dest('dist'));
+        .pipe(gulp.dest('dist/srd'));
 });
 
 gulp.task('pack:supplements', ['build'], function () {
@@ -170,7 +192,7 @@ gulp.task('pack:supplements', ['build'], function () {
     return gulp.src(packs)
         .pipe(debug())
         .pipe(uglify())
-        .pipe(gulp.dest('dist'));
+        .pipe(gulp.dest('dist/srd'));
 });
 
 gulp.task('pack', ['pack:core', 'pack:supplements']);
@@ -182,4 +204,8 @@ gulp.task('default', ['pack'], function () {
     ],[
         'pack'
     ])
+})
+
+gulp.task('deploy', ['pack'], function () {
+    exec('gcloud compute copy-files --zone ' + argv.zone + ' ./dist/* ' + argv.server + ':/var/www/srd');
 })
