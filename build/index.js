@@ -125,26 +125,29 @@ module.exports = function () {
             })
             .replace(/[^a-z0-9]/gi, ' ')
             .toLowerCase();
+        var i = 0, startWord = 0;
+        function add() {
+            // we've reached a gap; grab the substring and index
+            var copy = JSON.parse(JSON.stringify(tail));
+            if (baseOffset) {
+                copy.i = baseOffset + i;
+            }
+            addToSuffixTree(cleaned.substring(startWord, i), copy);
+        }
         // alright, we now have the markup; construct the suffix tree
-        for (var i = 0, startWord = 0; i < cleaned.length; i++) {
+        for (; i < cleaned.length; i++) {
             if (cleaned[i] === ' ') {
-                if (i - startWord >= minQuery) {
-                    // we've reached a gap; grab the substring and index
-                    var copy = JSON.parse(JSON.stringify(tail));
-                    copy.i = i;
-                    addToSuffixTree(cleaned.substring(startWord, i), copy);
-                }
+                if (i - startWord >= minQuery) add();
                 startWord = i + 1;
             }
         }
-        var copy = JSON.parse(JSON.stringify(tail));
-        copy.i = i;
-        addToSuffixTree(cleaned.substring(startWord, i), copy);
+        add();
     }
     
     function addHtmlElementsToSuffixTree(body, tail) {
         [
             'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+            'th',
             'strong', 'em',
             'keywords'
         ].forEach(function (tagname) {
@@ -165,10 +168,21 @@ module.exports = function () {
         'templated': function indexTemplated(body, tail) {
             var rows = body.split('\n');
             for(var i = 0; i < rows.length; i++) {
-                var copy = JSON.parse(JSON.stringify(tail));
-                copy.i = i;
-                addRowToSuffixTree(rows[i], copy);
+                addRowToSuffixTree(rows[i], {
+                    s: tail.s,
+                    t: tail.p,
+                    i: i
+                });
             }
+        },
+        'template': function indexTemplate(body, tail) {
+            tail = {
+                s: tail.s,
+                t: tail.p
+            };
+            var title = /title:\s*(['"])(.+?)\1/gi.exec(body)[2];
+            addHtmlPhraseToSuffixTree(title, null, tail);
+            addHtmlElementsToSuffixTree(body, tail);
         }
     }
     

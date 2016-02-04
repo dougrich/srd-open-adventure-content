@@ -41,7 +41,8 @@ sources.forEach(function (src) {
     
     var keys = {
         buildTemplated: 'build:' + src + ':templated',
-        buildTemplatedSrc: 'sources/' + src + '/templated/*',
+        buildTemplateSrc: 'sources/' + src + '/template/*.jsx',
+        buildTemplatedSrc: 'sources/' + src + '/templated/*.dat',
         buildArticles: 'build:' + src + ':articles',
         buildArticlesSrc: 'sources/' + src + '/articles/**/*.md',
         buildPack: 'build:' + src + ':pack',
@@ -49,11 +50,11 @@ sources.forEach(function (src) {
     };
     
     gulp.task(keys.buildTemplated, function () {
-        return gulp.src(keys.buildTemplatedSrc + '.jsx')
+        return gulp.src(keys.buildTemplateSrc)
             .pipe(jsx({
                 factory: 'CreateElement'
             }))
-            .pipe(addsrc(keys.buildTemplatedSrc + '*.dat'))
+            .pipe(addsrc(keys.buildTemplatedSrc))
             .pipe(templatedData())
             .pipe(gulp.dest('temp/' + src));
     });
@@ -102,6 +103,7 @@ sources.forEach(function (src) {
     gulp.task('build:universal:index', function () {
         return gulp.src('sources/**/*.md')
             .pipe(markdown())
+            .pipe(addsrc('sources/**/*.jsx'))
             .pipe(addsrc('sources/**/*.dat'))
             .pipe(indexer())
             .pipe(gulp.dest('temp'));

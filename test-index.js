@@ -60,9 +60,11 @@ function autocomplete(word) {
             next.node.$.forEach(function (i) {
                 if (Object.keys(found) === 5) return;
                 var word = index.w[i.w];
+                console.log(i);
                 (found[word] || (found[word] = [])).push({
                     source: index.s[i.s],
                     path: index.p[i.p],
+                    template: index.p[i.t],
                     i: i.i,
                     j: i.j
                 })
@@ -81,4 +83,4 @@ function autocomplete(word) {
     return found;
 }
 
-console.log(autocomplete('sword'));
+console.log(autocomplete('melee'));
