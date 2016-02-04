@@ -1,0 +1,27 @@
+outfit  | Adventurer's Clothes          | 1 sc  | 4 wt
+outfit  | Artisan Clothing              | 10 cc | 2 wt
+outfit  | Clerical Cossack              | 80cc  | 4 wt
+outfit  | Constable's Uniform           | 3 sc  | 3 wt
+outfit  | Courtier Clothing             | 3 sc  | 3 wt
+outfit  | Entertainer's Outfit          | 30 sc | 2 wt
+outfit  | Monk's Clothes                | 50 cc | 1 wt
+outfit  | Noble Clothes                 | 8 sc  | 5 wt
+outfit  | Peasant Clothes               | 1 cc  | 1 wt
+outfit  | Royal Clothing                | 2 gc  | 7 wt
+outfit  | Scholar Uniform               | 50 cc | 3 wt
+outfit  | Traveler's Outfit             | 10 cc | 2 wt
+article | Belt, Common                  | 1 cc  | 0.5 wt
+article | Cloak / Cape                  | 5 cc  | 1 wt
+article | Coat, Leather                 | 1 sc  | 3 wt
+article | Coat, Long                    | 70 cc | 1 wt
+article | Dress                         | 90 cc | 2 wt
+article | Footwear, Boots (pair)        | 2 sc  | 0.5 wt
+article | Footwear, Shoes (pair)        | 20 cc | 2 wt
+article | Gloves, Mittens               | 10 cc | 0.5 wt
+article | Gloves, Utility               | 6 cc  | 0.5 wt
+article | Hat                           | 10 cc | 1 wt
+article | Long Underwear                | 10 cc | 0.5 wt
+article | Shirt, Linen                  | 5 cc  | 1 wt
+article | Shirt, Wool                   | 50 cc | 0.5 wt
+article | Trousers, Linen               | 50 cc | 1 wt
+article | Trousers, Wool                | 2 sc  | 2 wt
